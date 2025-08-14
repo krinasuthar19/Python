@@ -8,15 +8,11 @@ while True:
     
     choice = input("Enter your choice: ")
     
-    if choice == "1":
-        try:
+    
             rows = int(input("Enter the number of rows for the pattern: "))
             if rows <= 0:
                 print("Invalid number of rows. Please enter a positive integer.")
-                continue
-        except ValueError:
-            print("Invalid input! Please enter a number.")
-            continue
+                
         
         print("Pattern:")
 
