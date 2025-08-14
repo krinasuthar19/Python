@@ -7,28 +7,19 @@ while True:
     print("3. Exit")
     
     choice = input("Enter your choice: ")
-    
-    
-            rows = int(input("Enter the number of rows for the pattern: "))
-            if rows <= 0:
-                print("Invalid number of rows. Please enter a positive integer.")
-                
-        
+    rows = int(input("Enter the number of rows for the pattern: "))
+        if rows <= 0:
+            print("Invalid number of rows. Please enter a positive integer.")
         print("Pattern:")
 
         for i in range(1, rows + 2):
             print("*" * i)
     
     elif choice == "2":
-        try:
             start = int(input("Enter the start of the range: "))
             end = int(input("Enter the end of the range: "))
             if start > end:
                 print("Invalid range. Start should be less than or equal to end.")
-                continue
-        except ValueError:
-            print("Invalid input! Please enter numbers only.")
-            continue
         
         total_sum = 0
         for num in range(start, end + 1):
@@ -46,3 +37,4 @@ while True:
     
     else:
         print("Invalid choice! Please select 1, 2, or 3.")
+
