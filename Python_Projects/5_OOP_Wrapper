@@ -1,0 +1,152 @@
+class Emp:
+    def __init__(self, nm=None, ag=None, eid=None, sal=0.0):
+        self.nm = nm
+        self.ag = ag
+        self.__eid = eid
+        self.__sal = sal
+
+    def get_id(self): 
+        return self.__eid
+
+    def set_id(self, eid): 
+        self.__eid = eid
+
+    def get_sal(self): 
+        return self.__sal
+
+    def set_sal(self, sal): 
+        if sal >= 0:
+            self.__sal = sal
+        else:
+            print("Salary cannot be negative.")
+
+    def show(self):
+        print(f"\n[Employee Info]")
+        print(f"Name: {self.nm}, Age: {self.ag}, ID: {self.__eid}, Salary: Rs{self.__sal}")
+
+    def __str__(self): 
+        return f"Emp({self.nm}, {self.ag}, {self.__eid}, Rs{self.__sal})"
+
+    def __eq__(self, o): return self.__sal == o.__sal
+    def __lt__(self, o): return self.__sal < o.__sal
+    def __gt__(self, o): return self.__sal > o.__sal
+
+    def __del__(self): 
+        print(f"Deleted {self.nm}")
+
+
+class Mgr(Emp):
+    def __init__(self, nm, ag, eid, sal, dept):
+        super().__init__(nm, ag, eid, sal)
+        self.dept = dept
+
+    def show(self):
+        super().show()
+        print(f"Dept: {self.dept}")
+
+    def __str__(self): 
+        return f"Mgr({self.nm}, {self.ag}, {self.get_id()}, Rs{self.get_sal()}, Dept={self.dept})"
+
+
+class Dev(Emp):
+    def __init__(self, nm, ag, eid, sal, lang):
+        super().__init__(nm, ag, eid, sal)
+        self.lang = lang
+
+    def show(self):
+        super().show()
+        print(f"Lang: {self.lang}")
+
+    def __str__(self): 
+        return f"Dev({self.nm}, {self.ag}, {self.get_id()}, Rs{self.get_sal()}, Lang={self.lang})"
+
+
+# Store employees
+emps = {}
+
+def menu():
+    print("\nWelcome to Employee Hub")
+    print("Instructions:")
+    print("- Add at least one employee, manager, or developer before using Show or Compare.")
+    print("- Use unique IDs for each employee.")
+    print("- Salary must be a positive number.\n")
+
+    print("Class Hierarchy Check:")
+    print("Mgr subclass of Emp?", issubclass(Mgr, Emp))
+    print("Dev subclass of Emp?", issubclass(Dev, Emp))
+
+    while True:
+        print("\nMain Menu:")
+        print("1. Add Employee")
+        print("2. Add Manager")
+        print("3. Add Developer")
+        print("4. Show Details (Need at least one employee)")
+        print("5. Compare Salaries (Need at least two employees)")
+        print("6. Exit")
+
+        ch = input("Enter choice: ")
+
+        if ch == "1":
+            nm = input("Name: ")
+            ag = int(input("Age: "))
+            eid = input("ID: ")
+            sal = float(input("Salary: "))
+            e = Emp(nm, ag, eid, sal)
+            emps[eid] = e
+            print(f"Added: {e}")
+
+        elif ch == "2":
+            nm = input("Name: ")
+            ag = int(input("Age: "))
+            eid = input("ID: ")
+            sal = float(input("Salary: "))
+            dept = input("Dept: ")
+            m = Mgr(nm, ag, eid, sal, dept)
+            emps[eid] = m
+            print(f"Added: {m}")
+
+        elif ch == "3":
+            nm = input("Name: ")
+            ag = int(input("Age: "))
+            eid = input("ID: ")
+            sal = float(input("Salary: "))
+            lang = input("Lang: ")
+            d = Dev(nm, ag, eid, sal, lang)
+            emps[eid] = d
+            print(f"Added: {d}")
+
+        elif ch == "4":
+            if not emps:
+                print("No employees found. Please add an employee first.")
+            else:
+                eid = input("Enter ID: ")
+                if eid in emps:
+                    emps[eid].show()
+                else:
+                    print("Employee not found.")
+
+        elif ch == "5":
+            if len(emps) < 2:
+                print("Need at least two employees to compare salaries. Please add more.")
+            else:
+                id1 = input("First ID: ")
+                id2 = input("Second ID: ")
+                if id1 in emps and id2 in emps:
+                    e1, e2 = emps[id1], emps[id2]
+                    print("\nSalary Compare:")
+                    if e1 > e2:
+                        print(f"{e1.nm} ({id1}) earns more than {e2.nm} ({id2})")
+                    elif e1 < e2:
+                        print(f"{e1.nm} ({id1}) earns less than {e2.nm} ({id2})")
+                    else:
+                        print(f"{e1.nm} ({id1}) and {e2.nm} ({id2}) earn the same")
+                else:
+                    print("Invalid IDs entered.")
+
+        elif ch == "6":
+            print("Exiting Employee Hub. Goodbye.")
+            break
+        else:
+            print("Invalid choice. Please select from 1–6.")
+
+menu()
