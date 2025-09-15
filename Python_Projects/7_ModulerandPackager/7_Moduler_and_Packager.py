@@ -15,10 +15,20 @@ def datetime_menu():
         if ch == "1":
             print("Current:", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         elif ch == "2":
-            d1 = input("Enter first date (YYYY-MM-DD): ")
-            d2 = input("Enter second date (YYYY-MM-DD): ")
-            d1, d2 = datetime.datetime.strptime(d1, "%Y-%m-%d"), datetime.datetime.strptime(d2, "%Y-%m-%d")
-            print("Difference:", abs((d2 - d1).days), "days")
+            try:
+                d1 = input("Enter first date (dd/mm/yyyy): ")
+                d2 = input("Enter second date (dd/mm/yyyy): ")
+
+                # ✅ Strict format check
+                date1 = datetime.strptime(d1, "%d/%m/%Y")
+                date2 = datetime.strptime(d2, "%d/%m/%Y")
+
+                diff = abs((date2 - date1).days)
+                print("Difference:", diff, "days")
+                break   # ✅ exit loop if success
+
+            except ValueError:
+                print("Wrong format! Try again with right format (dd/mm/yyyy)")
         elif ch == "3":
             d = datetime.datetime.now()
             print("Formatted:", d.strftime("%A, %d %B %Y"))
